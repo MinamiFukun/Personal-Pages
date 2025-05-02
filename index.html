@@ -272,6 +272,7 @@
       audio.play().catch(() => {}); // tránh lỗi nếu bị chặn
       document.removeEventListener("click", resumeAudio);
       document.removeEventListener("touchstart", resumeAudio);
+     document.removeEventListener("scroll", resumeAudio); // gỡ bỏ sau khi đã phát
     }
 
     document.addEventListener("DOMContentLoaded", () => {
