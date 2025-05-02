@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PThao 1111 Bi Nung Lon</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      color: red;
+      text-align: center;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .bg-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: -1;
+    }
+    .full-background {
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-position: center;
+      transform: scale(1.2);
+      transform-origin: center;
+      animation: moveBackground 45s infinite linear;
+    }
+    @keyframes moveBackground {
+      0% { transform: scale(1.2) translate(0px, 0px); }
+      10% { transform: scale(1.2) translate(50px, 58px); }
+      20% { transform: scale(1.2) translate(-60px, -20px); }
+      30% { transform: scale(1.2) translate(60px, -45px); }
+      40% { transform: scale(1.2) translate(-30px, 58px); }
+      50% { transform: scale(1.2) translate(30px, 15px); }
+      60% { transform: scale(1.2) translate(-45px, -20px); }
+      70% { transform: scale(1.2) translate(80px, -30px); }
+      80% { transform: scale(1.2) translate(-25px, 58px); }
+      90% { transform: scale(1.2) translate(50px, 35px); }
+      100% { transform: scale(1.2) translate(0px, 0px); }
+    }
+    @media screen and (max-width: 768px) {
+      .full-background { animation: moveBackgroundMobile 45s infinite linear; }
+      @keyframes moveBackgroundMobile {
+        0% { transform: scale(1.2) translate(0px, 0px); }
+        10% { transform: scale(1.2) translate(33px, 50px); }
+        20% { transform: scale(1.2) translate(-30px, -20px); }
+        30% { transform: scale(1.2) translate(30px, -40px); }
+        40% { transform: scale(1.2) translate(-30px, 50px); }
+        50% { transform: scale(1.2) translate(30px, 15px); }
+        60% { transform: scale(1.2) translate(-33px, -20px); }
+        70% { transform: scale(1.2) translate(33px, -30px); }
+        80% { transform: scale(1.2) translate(-25px, 50px); }
+        90% { transform: scale(1.2) translate(35px, 25px); }
+        100% { transform: scale(1.2) translate(0px, 0px); }
+      }
+    }
+    .notification {
+      background-color: #007bff; 
+      color: white; 
+      padding: 15px; 
+      position: fixed; 
+      top: 20px; 
+      left: 50%; 
+      transform: translateX(-50%); 
+      display: none; 
+      font-size: 18px; 
+      border-radius: 5px; 
+      z-index: 999; 
+      white-space: pre-line; 
+      text-align: center; 
+      line-height: 1.2;
+    }
+    .device-text { 
+      font-size: 22px; 
+      font-weight: bold; 
+      margin: 3px 0; 
+    }
+    .subtext { 
+      font-size: 16px; 
+      color: yellow; 
+      margin: 0px 0 3px 0; 
+      line-height: 1.2; 
+    }
+    .emoji-line { 
+      margin: 10px 0; 
+      font-size: 24px; 
+    }
+    #countdown, 
+    #titleText { 
+      display: none; 
+    }
+    #countdown { 
+      font-size: 64px; 
+      background-color: rgba(0, 0, 0, 0.5); 
+      padding: 20px 40px; 
+      border-radius: 16px; 
+      box-shadow: 0 0 10px #000; 
+      margin-top: 20px;
+    }
+    #playButton { 
+      padding: 15px 30px; 
+      background-color: #ff0000; 
+      color: white; 
+      font-size: 20px; 
+      cursor: pointer; 
+      border: none; 
+      border-radius: 10px; 
+      box-shadow: 0 0 10px #000; 
+    }
+    #playButton:hover { 
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+<div class="bg-wrapper">
+  <div class="full-background"></div>
+</div>
+<div id="welcomeNotification" class="notification"></div>
+
+<!-- Nút bấm ban đầu -->
+<button id="playButton" onclick="startAction()">Đến video đích</button>
+
+
+<script>
+  let time = 3 * 60 + 15;
+  let audioPlayer;
+  const backgroundImages = [
+      'https://lh3.googleusercontent.com/fife/ALs6j_HdfB0hApKESjhAIwrgDGzcHs29pDaJQ-L0akPhvEyuSusvv86BLZBkcZAomd-y-t79wMH8ZqZuchqbEgW_wbOcBKzAVejBoCEOQX1ZrjXWu7jmitS_0ps7n32KoOVJEY0-6CXIqpyU8pz3Ccus8uFW5tfUqjjYAxJ0SwOrEBNmG8On62NuFjaM9jQq1udcltm0-KFK9XO_NNv16RWFVxgdkfKaVen2KtTEkVyq36jc8vLoYUSaGJzkd3j1Z461VqnfVshU9RqSLqtGr40paQC2anrq1wPxl-IednWb4EDIKCOG51oje605ypLOKS28WKCHHLQFVz6NtkWj41NfQtzn3H-9F7DO3KwsC9nW0SHJn8tlq7-UHKqX4j2XRVkBQZzh4pyDA0Vq4BZE_LkkVjQoPNmqiukcoeY5XHSfjm9ZDWhAGhQwjoXT9BYK621Q1Y-SWezksb4mzd-oKb5_doqw1vAq0YU2lWE993QKwpQdQSU3CUuk08r7nQwG04PQgthMpnSmb4DYTCl4wX_HYfjVNY3gG7St-Jn0w_bXp1GFSk8R0jdJOO2o4laExBFAc6HfG1ZVx1cI2dHMKn5ehLbiMXN4ETp_1jIS8OzFxfBaE74IR3PzQudHAfdJATv-WKP3mXq1PQRaYIqFiK_DhIzYobrd3s6yQPi6EqUwCLHmqM-KJUvzbBbMcQQJF68u8J_2slJGHkmKfOnuMb4F3b_GtCU1MNwZ1VaKiNVZDpOg--MY8yK9yUmO9TvRHHDWtnh4JnNDwu7co8ecxTOLnKGodeGanYf0Dzb_w01z4NkuCYpBsGbv9Ntpzt3TcRhgNNUExWzPLFdHj3LXkoZOYyaZRUTFRxp_cOYovPkKxGRHshmYbi0mjwgTAFIeD5U8uYMoAyAbSClotcMk0jsx-5tfZUNXft26kPSm-V_qUULNR1LlteZfo_-8nHDiIo9ynrSvMI-wEONGR7V51VrkXrBuIUR7SaEwHZTJ24r_TJ35OdYE3GYy5_qp3oHC9wE29yoSJUVVhSM9pyd1o5bdksoVv_ECP7c2TkK8D8nazFQ84nunLyYSTaEi3AWI9-A6-L1OXObrpUEq3y5O6ORluDjb0CKDt9psU66pnX2wAI5x5OBxGnGZCPuVAk87o8_la1GwAoVTk2EnxSznFLj_1KTayv34KenudYi0ruhiNTu13chBLC6n9aX1CR8JRG8raNLZMx1BqUp_NHHMKohVfkuY66rKzZQy5cR8KSse8WEZF3dZ-1EAa_7mEXsKUv6qKHm5hl47fYIrk8oiIGEsvw888k3jF9oPnJUcee5LEKBQNxafzQU8ZLojzfmP08ECvqAm5Km_li9Rd6IdlVgDDt2Cd_NbeCpqdSIDszQ9tziT76wPE2ceBLn1hflVl5ZirFVDAzGVYdWftn7UvoNPTRu5CCY25WXTgRfnSJu3ZaBx1q64Idhbt8DUSexXL2nTNce5ktpCXVsvdyyHOHP1BGrEEv_j2RqdKEIfcmuBhw_BtzAi5K9xu7fARhMmGrt4QB9gC__G87_UhxganimneY-OG7_TruwJPXpLnHlebATZHmJKxFoL3Jq3XNQdPICntIGGVgBk0wXbpp2Dgg=s0',
+      'https://lh3.googleusercontent.com/fife/ALs6j_EZ6AQrVXLLqeucJy7JQUgEbVnDecvibwLIEDbJRlgWX9ZqW0GQJ7TBtzZ8QWz2k0IHAqyi17NbsDOD1wi45vsZJjQPT3iAd_3-kEf-LJ0xC0jO33pPrFvXAbGRv8a1RrXxQSQoxB_mJ_1IK8OVgN-etNQGB_acQ_rZqaJQP1dTvYXbwZ-qYr3BV25m8HUYQdOfUd4JF2ver3nRNSlKx9vX3BUUAKK88Kg_aBNPaqw0DQqBGUwq4gIEFlaFKpMCBzvFdHJkxkekw0cy596VT3Uz1yLHwgZV_gfpKrrkivy84qDdvicSkwFeDffzgiT6xQiIZswQP5Lc5Fa0d-OjUgs5unkoZRpiDUemLLqJsGV86lR5155rDwYYBICvYdpBNMo9g6a5pP4KiQ8azIyWYh8OudEx06SUsX9Oa_T8_XMkYrrj9y8_IMvB5ia0eY8NSwsX-UPS8VOrgvMErFDEjcO7eBnJbTIoMJt4BC56o_6pD-P0WlW2bGa6wf4uvKOINCWrB7DcbEv98YgAFyzzT-kPvvegJmDtt73JL6wv1vA4IEN0Nvaubhp0MPwFfMXIJm6T_5FjwN3yUMzOhYq_Ca1fb1S7T5upLx4wH3bBqYWpDUo3r_bB3Vs5LFGO2NIfa7Jy2Fcj4mZbIujgq-Kmh1unv49MJPoMSXJ_gcVoNualrY3Oeab0B_63vkC62I5IVRazD_TbPj9kBIL3v-aAfSVEEwSEhx2wG9oOwVwKg7eOISiHZxvUeTYZW8MMj64tID2vrIhwc7R7mkgNnDedUyK4OlSzRJbQRuOTIq1F9-c7ClONfjb34e-NrJFa-PfNqmu4TUT0wtHKonfgmK8OiD59xjt_K-JJWZnbs7ZuJY701MBor5UztuIjnkPYYmTCTsCuCKB_rt-XDV1aCqkIVWkiK-gJ3ht_zAbDoRTcbbeCFYP6JbXna1imvSJMPFGCXsa8inrvlERsN52pvzUdwQ0zeO7CKJDaDJzIQfUbv6BAmfJvKKNcq0mtPe_5AFNOUqNR_24nJUgLbO2CzIq1h5z5UqOpKQhiiMBkCPJ6Cc2R4vofTdlE5ZKNexs-Uh4YqI2gVfcG47qQx_T4J9fw2NPYMHhYipAt6nWji73imLYy7dtbBghcL7Iu6o1OnN4OloJZglitK7Ur28wHzIbQRdrEV9FXHutandeeB-1RmYSaMJiIx7Js3COxNHOUIHd7Ups0PPsL6K4qcZRSSqyvxTKeOfppO1MHaPX0G0amhsiZdbiiOdpszNOMvDG25o7_qxiZFF3jefXo8NfNf8_Ms32fRE2LXw8Omd3VFrxRGqqi16zYvx8QoscmQvivwQlY6CNeeviPJKe2EnXeIu1gCz9yMPQgymsFd6CVtDBgSijquxZzhI5ji4pc564iHJIKHfEEl96fWhrMXdzbFKW4yOC7z1WFP619Q86INnEburf8Tm5WxHL7uGcCXeWoqnMEitnDkVGHPPBHmrLRkQDP2XPljo6MMoK06ZY6WMPDSir17tZhSipUCgUTnJFMZJbb6FYMUVb8bChWZaH95_e7sDcBt7WvGcnPjDQWUsjMyikP0pIJsWO4MmP_LB0L0AclrdVQwcD4Q9_WNakzGaUB=s0',
+      'https://lh3.googleusercontent.com/fife/ALs6j_Ev5rPdqbqAKlONzLVFrxOfGr2U9yhY5emOhc57mPlDQH4Ys76nEhZ_6_zkNT5Up8bkD3_ivBynaYreERShW4PNg7LZpknsSmOXFQ5b-o4xFLqm_t56ouyHFXl5NnWukpJKxSdxbXEEi8gu_G4K-vfciwoHYyEgPWplAM7E9CJ0p4sfdkiOvHFqbsSi4N4NTXd_lXWWbswI9HRygz1ie3_ilOCAXzE_lJi8baEEERyYe2O5PlLuLz0OT2nHDp79Ef0Cf2UMhmWNXcN_bAMVte19txgSnr5TBxk2DRs2QXjuwMZxBO2BvfzMfXgaW1EWdSWbJszbAwY8YGJnCVoSH_HeScGXqe-x2x4E6u0ipd-h0uaTJ_dtmoM5yhRlEKZXgrbLxKaAODjx9r88VTQBafppkW-rmS7xBHTrOkKCJoqtuX8YvpUPDYVdh7R3Swgq3CiaQwfCjE2QzQfoeHbNbrT2fLdpOAMmpqKZfgyz8IFX5RC_oY2bSiyDNmwdK2d6uEYrXNzYloXOuazQVuDkM3FDHPczQjriBslz-P8C4Sr8_0WbG_kmgCzAWt8en_VojS4zhi0889RDZYjvqj3TgvwBnf1947QaP2BOsPUAB0rkPoJU4T80hde1moqystOyeCPyBnfBMO9XsyB7E1La4Z4cIHDqsoqJDM3mrYe9TA6jYjAG5scMzrxN1h2Z_ZZlgH51GcRIslmiEbcNEY1MdXKGCxMwYOooM2klFwqFBxomzoA1dxBK0nNAbFpmnhc4bK1zv_4DQlSUhhQs5H9GIGX3NJbeMQ3wh4S-Xnn3yqCDSi6LeHOGBXGyHHS4VAME_NUWUp0vMFGtLO0lldnOIUf8MpcNmvFvHn-RrYtf7U0glqOEWNlsU6g4VTiS_OeSb5GGiu8LUm18mHKl_BGkaMqKNqxips5j0T2bHnobntVrHIHxEoUOXJYh67maubDR2xjyGx-voGh9393eI5LkCPcfLnjfHgmytMPrbhx8OiJqDJXRhYYN7Lv4D6AsW72OIR3kVTWbOlF6MFIhhZqUJCLhqX1xT6NJY2rLbbu4N-0si2axHkvOOEJhsGOHmGM1KB2VV0vhKbd77YRnR0Ap-aRbdNf0QfMAvbuNphNu5uG-PV53k6sumXUJblpGUI9uyXdp3NcxdQrRDiyFhb8x1VP_fCOq9JS2LM9HGzGsRiq-ZcH9spZuGHDLECHRjyMR_kYnsRnMQOZ7GAIjfmHSokoueA7RxMa7X-o21Dh-65MsWiV7ZiQogieZB7cHg1SxXHxmky19haxVLOdIa-Z-GHJ4wYyI_wtcCo3WuDcw9ImIIIDJD5dp5-WNfCFiA9BGtI8dk7GkrG3a8_PomWE7ygXh1xjGP05Ro9UlJJVaeGBQrYwU9TbA5NEHJbur7arfPeGWkz3dbg36LX2KREsfdj4c11KWp9rsmcbQeaGR8DBDmME75BQgc6L7rCWjDSXc6YGGXGf8LDT9R3L43eypph4Iq1qxczwPrOI1ruYht1aQhNPgU-NLffrVDdasawmhWhmq10np2Y_Q4WXk-BGkR9VyIccmsvGbFXWcVoUAnG6MoK0ugwgogO_xzO10ziwGv0CqAvT7O_LkG-RhFytrDA=s0',
+      'https://lh3.googleusercontent.com/fife/ALs6j_HvRaM78RV7Gx97Tv_JWjJjYtu28RU-cpERxwcVUHglELd03vOIMCZUA8AwcG884XfotpMFCnYe61rt4lJjarzQ5aA874-PBvSKDKKU3NCrv0X9XA2yLvDOO2sybzIXHN-phIcl9if35VGzPh_a4qkzaz3x1ChYJpY_qx_7VfNdjvT2-9_TT-6FldzQUcUSn6DGKRpcTXwk3PsMkia13AHNQ6f72auAJw15ldhgN6-e3ln5K-DtP6snhZR0_j5ILoaBOEqp6P3mKkUvg9tjyumI8K93BHCA7vpCMOUcygLz-2Py67nrbEVDh_adA2xwkjyUlStaZM2U4g4XzvDfT15vInS2FI53XxTQiYmajMyk8GfjWMYXlkCGS3GOvbpjMyuUpL7XgnT4A5VyKLHsDuCug58dmH6iXDl9o0HwpaB44tpvGltQbiWwI0Tb16NTg8ABRa8nCT_7VUtmAUj_y9kv0zDAvUDEymZ5HU3GPDJVFe1GMrpr2vH90zuUB3-S5n-p_2pYRoycO7AqBhxit4Q87SPDPyKTBExSMiEv7-GH3etDADVkBcC9ULJDpL36JPJxEZzWdLIAGfHhQoj01ghEXv10NwJqTjf1TTSe_KPPXD-kzUu2UzAj4sgUI1zI2208YGShINcO8pASmVK-qhoERv1iPkoXetQ3RrsQQ-YUx4pzLjrkKDJTP43iZTMGZlayAB1B2dEu7nx5VG0aNTVXyLxzI2oDUlETxC21HDMrwA06A1lv2zWqKD8aD8lf9nWr69Je5zhX_DGYOoaZ5b4J6eX4zk04gwlD6dTPHYHz5byrej8pqHT4dOoTF52b-m9LEhqHOmjUSN6kU-RgScjeClfDEpcS4yLxP6qdbX39wu_kSrodU3idUx4xNVZoPlvGag78Pq3Uf_RcHFeF69mMDgDMdOsXbqyJ6m4vaTP_Xf0d0XyeL0d_84EXYfLRI_mZZ72Qu3fr6PfnDlHq4Oz7FYTpgS0gLg5zj8Tlgku9rB2nU9V-vyPBQjEdj8YjOgH-oIyhV0Mu3pLA07wzD1zmV5H59qtCTTj9ZWKaT01enqUVlyIAbHSAK4AkaWPN09at1LEjvJznThuvwV-r7bYPa50XZL3H_WNqsn0s1NctZWmdF7rHFCdSsVJqiM33lrJqVfNbf-ySzkXpn3xuKhZnGzriz8Whi6pqEso6tZKlhsie2d21l_p5Wf8K6OJKx-xYUc61-bmJi6AAcQeyFZVwF1_WdjG5v5VPtGdAosDOCoUZZ4pYjq4EyB_mz_iRAniVjOGrDD1s-JEBk23NNPnqe4ZceUWzpxIUUVd6AUejGvBiZ_XYDFzinq6f9b9CEsDiO06GqMS29TjDisgCQjXN5mJvJGNFS9A2gqMaXv6Y1j0fk93mlK47LDNkpxWdixo1eTXnMJSKlC237v0z-tG27cEOTe6rEBmPE1hcD06T28bogy9l40ps72dq8ApSNCXrFpvBwFDHjZ3wuuAP9_87FHtLWOJorgLj5Jd4auaTXvzsezwEngD_ML7ehyVgES4E-vk5upKzeMuj0faUfbVTRa22b4R4jY4_A5Xpm2AslTY2KYBFJXT5XfiIBP_HhPc7NMJ3t3XgcsehuNHlFQ=s0',
+      'https://lh3.googleusercontent.com/fife/ALs6j_HTyR5o0vTg1AH4NVZqgSan1m9lYtillKh2o8QlEsjzmDcXVueVPtcnkZTAWcaWeOWYYavxIh8GCA3Sd2ltowGF-X3uE1xSITSmXmkpEMyMotRyLpb6TXXF8YYX_4xQwiiyDMucm5CtYh_kNA1PoTUlU8bIs3exn8dOGw1AVMoCc2VAKAtGpqjv1iqfF9xDoaeWqZmiOZHmgAJ5fLH-eUQvW89037fu3gQ_z4GlatonTG8BZVFpwYaF-5AcE8YrGiMst9a72R2RJX9RCyifWrV4fg5EgMXE8V3on5Fljlqc_X5_Se-MraxavilSgSMxuFNTwAeHe7nkU4SSPHXoXXfCUOW8m5qrnNFhCXtI1i6cv7qayBrZhFexy83tF-Mp7QzJecMNQIDH6GphwUP5kHo1P1qeILwgfMj8Zel7JHiyOa9wLtGf6CLLhNyonjxGiQr-q3nt9YjHSAbYHZmw1MOmTc2w3TuFytX5FO4izssag7K6wC-x97NvHH435IkvizWUIJulkf-HhXvGgp6-uIeiQA0baBUmsFT0J-UlS991E5Cf6ZuJhOce11QG01XFvW1SrK3EGupeW5KPXn1pfiV7jZs-fTUE108DzYI17KhMEBdQNz213YfXMIYYHqFrwxmn5Pq2Qkf1_5t9CldZncROfgLgqw_x1r2nijV58cpEyBZSRooTpmBd9AMM0ewzU6a12Nt-gzd3_uBaCM52_K_8S-kaVgMj1j85SyfPy-N1fo5mFZmmTYGbpDofk3qlskbgSV2LGjqqzatjvyGoS5al8TzWW0xj_ea_fQLMl8YmomwD7trFfjq6ogqMB1uu_pqt1BdlndKDYPyMV2qkcCxsJvlGnPZS3zD39Jf2prIiesD496m05GvTV5wqzXw42-uO3nEZ1nVhJtGs8MGxQ3U1goqJRd3fAEdsWdUPEbQ0gtoxn0JK39cQh691LTR7abQgRILqDTBYOLuUpi5IheG7_gC_1PtibG7cjFDDkIkjsjHnOofbVL_P8GPUrXHth7fcsgtZi1kEOj4oB2Tr-9f2DdY600VEAoF5eO59Hjiz6_irXF3wWW_ae4zsqAJOjP41iff4LLLmeWRS6KYaBrU5j2sj3oMiwKlxfdt46RUwVTNpjOGYrl3QBCQsthbrpHCJ1K5FBh2gz6tNyvO2IqDhCCg5mG-XOQICqlLDMP1xDyHvTHqmsRqU5PTXK77JRYc3UG4FFKE9KbeD1lnruPq-0vmrwtltf5mOfj-Epy9dPe5qmTsN_7_M3kRN_l9usHYM2P0wweNr6jlBmmoCnmmdS7rACoyWxrGCas-U-3_1fRFnUSylz87fBCg5gnbpIJM9v0eruIg87quvPzLeSNFAwBaF3HpZ1QIGzgRjR5KxSFI7yw8Gv-f92_MbUgjGClurWbhYeQ7waBLDSXjxg3Sjq0ASrzSja6JxOYtTH7GVx0DbzHSFtCmsBGVrD944QR6CYKUP97YPKt-NEk8wwscGk6t_JJwGRwSTy-8LqAKCqR-p6cp10sumWDUL7Cmoq75PXMeIWAG5KCE7pU-WrVI6tfxNu2D0a6S7fUwRhb7L5XTKf2GM7g7C93dXRtcz8wkyPH82bGQZ6hszW2lH4g=s0'
+    ];
+  const preloadedImages = [];
+
+  function preloadBackgroundImages() {
+    backgroundImages.forEach(src => {
+      const img = new Image();
+      img.src = src;
+      preloadedImages.push(img);
+    });
+  }
+  function switchBackground() {
+    let currentIndex = 0;
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % preloadedImages.length;
+      document.querySelector('.full-background').style.backgroundImage = `url('${preloadedImages[currentIndex].src}')`;
+    }, 30000);
+  }
+
+  function startAction() {
+    audioPlayer = new Audio("https://minamifukun.github.io/Website-Cua-PPnam/Perfume%20-%20Various%20Artists%20-%20B%C3%A0i%20h%C3%A1t,%20lyrics.mp3");
+    audioPlayer.loop = true;
+    audioPlayer.play();
+    document.getElementById("playButton").style.display = "none";
+    document.getElementById("titleText").style.display = "block";
+    document.getElementById("countdown").style.display = "block";
+    startCountdown();
+  }
+  function getDeviceType() {
+    const width = window.innerWidth;
+    if (width <= 768) {
+      return `
+      Bạn đang sử dụng:<br>
+      <div class="device-text">Điện thoại</div>
+      <div class="subtext">
+      Video đã xóa khỏi web vì lí do<br>
+      "Chưa có sự cho phép của ng đó"
+      <div class="emoji-line">😊😇😌</div>
+      </div>`;
+    } else {
+      return `
+      Bạn đang sử dụng:<br>
+      <div class="device-text">PC</div>
+      <div class="subtext">
+      Video đã xóa khỏi web vì lí do<br>
+      "Chưa có sự cho phép của ng đó"
+      <div class="emoji-line">😊😇😌</div>
+      </div>`;
+    }
+  }
+  window.onload = function() {
+    preloadBackgroundImages();
+    document.querySelector('.full-background').style.backgroundImage = `url('${backgroundImages[0]}')`;
+    switchBackground();
+    // Show device notification
+    const notification = document.getElementById("welcomeNotification");
+    notification.innerHTML = getDeviceType();
+    notification.style.display = "block";
+    setTimeout(() => {
+      notification.style.display = "none";
+    }, 10000);
+  };
+</script>
+</body>
+</html>
