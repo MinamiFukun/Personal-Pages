@@ -163,7 +163,19 @@
       document.querySelector('.full-background').style.backgroundImage = `url('${preloadedImages[currentIndex].src}')`;
     }, 30000);
   }
-
+  function startCountdown() {
+    const countdownElement = document.getElementById("countdown");
+    const timer = setInterval(() => {
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+      countdownElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      time--;
+      if (time < 0) {
+        clearInterval(timer);
+        window.location.href = "https://www.youtube.com/watch?v=6hEzqo5gUuM";
+      }
+    }, 1000);
+  }
   function startAction() {
     audioPlayer = new Audio("https://minamifukun.github.io/Personal-Pages/Perfume.mp3");
     audioPlayer.loop = true;
