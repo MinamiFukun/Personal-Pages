@@ -284,6 +284,15 @@
         document.addEventListener("scroll", resumeAudio); // thêm sự kiện scroll tại đây
       });
     });  
+   function startAudioOnce() {
+     audio.play().catch(() => {});
+     document.removeEventListener("touchstart", startAudioOnce);
+     document.removeEventListener("click", startAudioOnce);
+   }
+
+  // chạm bất kỳ đâu trên màn hình là phát nhạc (chỉ 1 lần)
+   document.addEventListener("touchstart", startAudioOnce);
+   document.addEventListener("click", startAudioOnce);
 
 </script>
 </body>
