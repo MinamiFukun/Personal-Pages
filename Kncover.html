@@ -135,7 +135,9 @@
 
 <!-- Nút bấm ban đầu -->
 <button id="playButton" onclick="startAction()">Đến video đích</button>
-
+<!-- Nội dung sau khi bấm nút -->
+<h1 id="titleText">Trang sẽ chuyển sau:</h1>
+<div id="countdown">03:15</div>
 
 <script>
   let time = 3 * 60 + 15;
@@ -172,7 +174,7 @@
       time--;
       if (time < 0) {
         clearInterval(timer);
-        window.location.href = "https://www.youtube.com/watch?v=6hEzqo5gUuM";
+        window.location.href = "#";
       }
     }, 1000);
   }
