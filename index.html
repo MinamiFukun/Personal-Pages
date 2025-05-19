@@ -228,11 +228,40 @@
     }
   });
 
+  let clickCount = 0;
+  const maxClicks = 3;
+  const timeout = 1000; // reset sau 1 giây
+  let clickTimer;
+  let messageTimer;
+
   document.getElementById("thongbaobimat").addEventListener("click", function(event) {
-    event.preventDefault(); // Ngăn không chuyển link ngay
-    const confirmed = confirm(`Bạn không có quyền truy cập vào trang này`);
-    if (confirmed) {
-      window.location.href = this.href; 
+    event.preventDefault();
+    clickCount++;
+
+    // Nếu là lần bấm đầu tiên thì hiện thông báo sau 500ms
+    if (clickCount === 1) {
+      messageTimer = setTimeout(() => {
+        alert(`Bạn không có quyền truy cập vào trang này`);
+      }, 500);
     }
+    
+    if (clickCount === 2) {
+      clearTimeout(messageTimer); // Hủy thông báo đầu tiên nếu chưa kịp hiện
+      setTimeout(() => {
+        alert("Còn non và xanh lắm =))");
+      }, 120);
+    }
+
+    // Nếu đủ 3 lần bấm thì chuyển hướng
+    if (clickCount === maxClicks) {
+      clearTimeout(messageTimer); // hủy thông báo nếu chuẩn bị hiện
+      window.location.href = "https://minamifukun.github.io/Personal-Pages/Secret.html";
+    }
+
+    // Reset lại sau timeout
+    clearTimeout(clickTimer);
+    clickTimer = setTimeout(() => {
+      clickCount = 0;
+    }, timeout);
   });
-  </script>
+</script>
