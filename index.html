@@ -229,7 +229,7 @@
   });
 
   let clickCount = 0;
-  const maxClicks = 3;
+  const maxClicks = 4;
   const timeout = 1000; // reset sau 1 giây
   let clickTimer;
   let messageTimer;
@@ -246,15 +246,23 @@
     }
     
     if (clickCount === 2) {
-      clearTimeout(messageTimer); // Hủy thông báo đầu tiên nếu chưa kịp hiện
-      setTimeout(() => {
+      clearTimeout(messageTimer); // Hủy thông báo đầu tiên nếu chưa hiện
+      secondMessageTimer = setTimeout(() => {
         alert("Còn non và xanh lắm =))");
+      }, 150);
+    }
+   
+    if (clickCount === 3) {
+      clearTimeout(messageTimer);
+      clearTimeout(secondMessageTimer); // Ngăn không cho thông báo thứ 2 hiện
+      setTimeout(() => {
+        alert("Sắp được rồi cố lên =D");
       }, 120);
     }
-
-    // Nếu đủ 3 lần bấm thì chuyển hướng
+    // Nếu đủ 4 lần bấm thì chuyển hướng
     if (clickCount === maxClicks) {
-      clearTimeout(messageTimer); // hủy thông báo nếu chuẩn bị hiện
+      clearTimeout(messageTimer);
+//      clearTimeout(secondMessageTimer);
       window.location.href = "https://minamifukun.github.io/Personal-Pages/Secret.html";
     }
 
