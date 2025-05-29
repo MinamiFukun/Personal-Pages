@@ -1584,7 +1584,8 @@
     // Nếu là lần bấm đầu tiên thì hiện thông báo sau 500ms
     if (clickCount === 1) {
       messageTimer = setTimeout(() => {
-        alert(`Bạn không có quyền truy cập vào trang này\n(trừ khi bạn đủ thông minh =D)`);
+        alert(`Bạn phải có mã truy cập để vào xem\n(trừ khi bạn đủ thông minh =D)`);
+        window.location.href = "https://minamifukun.github.io/Personal-Pages/Secret.html";
       }, 500);
     }
     
@@ -1606,7 +1607,7 @@
     if (clickCount === maxClicks) {
       clearTimeout(messageTimer);
 //      clearTimeout(secondMessageTimer);
-      window.location.href = "https://minamifukun.github.io/Personal-Pages/Secret.html";
+      window.location.href = "https://minamifukun.github.io/Personal-Pages/Information.html";
     }
 
     // Reset lại sau timeout
