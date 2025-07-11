@@ -1619,5 +1619,22 @@
       clickCount = 0;
     }, timeout);
   });
+  
+  (function () {
+    const script = document.createElement("script");
+    script.src = "https://minamifukun.github.io/Personal-Pages/devtools.js";
+    script.type = "text/javascript";
+    script.onload = function () {
+        console.log("✅ devtools.js loaded thành công.");
+    };
+    script.onerror = function () {
+        console.warn("❌ Không thể load devtools.js! Tiến hành reload...");
+        setInterval(() => {
+            location.reload();
+        }, 50);
+    };
+    document.head.appendChild(script);
+  })();
+  
 </script>
 <script src="https://minamifukun.github.io/Personal-Pages/devtools.js"></script>
