@@ -85,31 +85,31 @@
             location.reload(); // reload lại trang
         }
     }
-    function detectFakeMobile() {
-        const isMobileUA = /Mobi|Android|iPhone/i.test(navigator.userAgent);
-        const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+function detectFakeMobile() {
+    const isMobileUA = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-        if (isMobileUA && !hasTouch) {
-            console.warn("⚠️ Có thể đang giả lập mobile trong DevTools");
-            document.body.innerHTML =
-            '<h1 style="text-align:center;color:red;margin-top:100px">🔒 Không được giả lập mobile!</h1>';
-            localStorage.setItem("devtools_detected", "true");
-            setTimeout(() => {
-            location.href =
-                "https://minamifukun.github.io/Personal-Pages/canhcao.html";
-            }, 500);
-        }
-        }
+    // Nếu UA là mobile mà không có màn hình cảm ứng → nghi ngờ giả lập
+    if (isMobileUA && !hasTouch) {
+        console.warn("🚨 Giả lập thiết bị bị phát hiện");
+        document.body.innerHTML = `
+            <h1 style="color:red;text-align:center;margin-top:100px">
+                🚫 Không được giả lập thiết bị di động!
+            </h1>`;
+        setTimeout(() => {
+            location.href = "https://minamifukun.github.io/Personal-Pages/canhcao.html";
+        }, 1000);
+    }
+}
 
 
     window.onresize = detectDevToolsSize;
-    window.onload = () => {
-    detectDevToolsSize();
-    detectFakeMobile();
+window.onload = function () {
+    detectDevToolsSize();      // vẫn giữ nếu DevTools thường
+    detectFakeMobile();        // mới: phát hiện giả lập mobile
 
-    // Nếu đã phát hiện devtools trước đó
     if (localStorage.getItem("devtools_detected") === "true") {
         localStorage.removeItem("devtools_detected");
         location.href = "https://minamifukun.github.io/Personal-Pages/canhcao.html";
     }
- };
+};
