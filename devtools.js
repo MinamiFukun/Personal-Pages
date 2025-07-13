@@ -85,26 +85,6 @@
             location.reload(); // reload lại trang
         }
     }
-// Phát hiện user giả lập device trong DevTools bằng cách:
-function isLikelyEmulatedDevice() {
-    const isMobileUA = /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent);
-    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    const isDevtoolsOpenBySize = window.outerHeight - window.innerHeight > 160 || window.outerWidth - window.innerWidth > 160;
-    
-    // Điều kiện mạnh tay hơn: dùng thiết bị mobile nhưng DevTools mở (kích thước lệch)
-    return isMobileUA && isTouch && isDevtoolsOpenBySize;
-}
-
 
     window.onresize = detectDevToolsSize;
-window.onload = () => {
-    if (isLikelyEmulatedDevice()) {
-        document.body.innerHTML = `
-          <h1 style="text-align:center;margin-top:100px;color:red">
-            🚫 Không được giả lập thiết bị trên DevTools!
-          </h1>`;
-        setTimeout(() => {
-            location.href = "https://minamifukun.github.io/Personal-Pages/canhcao.html";
-        }, 1500);
-    }
-};
+    window.onload = detectDevToolsSize;
