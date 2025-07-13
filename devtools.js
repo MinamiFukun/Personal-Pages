@@ -33,6 +33,9 @@
         const after = new Date().getTime();
         if (after - before > 100) {
             document.body.innerHTML = '<h1 style="text-align:center;margin-top:100px;color:red">🔒 Bạn đang cố mở Developer Tools!</h1>';
+            setTimeout(() => {
+                location.href = "https://minamifukun.github.io/Personal-Pages/canhcao.html";
+                }, 500); // chuyển sau 0.5s để user thấy cảnh báo
         }
     }, 1000);
 
