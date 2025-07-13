@@ -29,7 +29,6 @@
     // Phát hiện DevTools bằng thời gian thực thi debugger
     setInterval(() => {
         const before = new Date().getTime();
-        location.href = "https://minamifukun.github.io/Personal-Pages/canhcao.html";
         debugger;
         const after = new Date().getTime();
         if (after - before > 100) {
