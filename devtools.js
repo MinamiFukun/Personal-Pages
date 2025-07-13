@@ -85,6 +85,31 @@
             location.reload(); // reload lại trang
         }
     }
+    function detectFakeMobile() {
+        const isMobileUA = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+        const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+        if (isMobileUA && !hasTouch) {
+            console.warn("⚠️ Có thể đang giả lập mobile trong DevTools");
+            document.body.innerHTML =
+            '<h1 style="text-align:center;color:red;margin-top:100px">🔒 Không được giả lập mobile!</h1>';
+            localStorage.setItem("devtools_detected", "true");
+            setTimeout(() => {
+            location.href =
+                "https://minamifukun.github.io/Personal-Pages/canhcao.html";
+            }, 500);
+        }
+        }
+
 
     window.onresize = detectDevToolsSize;
-    window.onload = detectDevToolsSize;
+    window.onload = () => {
+    detectDevToolsSize();
+    detectFakeMobile();
+
+    // Nếu đã phát hiện devtools trước đó
+    if (localStorage.getItem("devtools_detected") === "true") {
+        localStorage.removeItem("devtools_detected");
+        location.href = "https://minamifukun.github.io/Personal-Pages/canhcao.html";
+    }
+ };
