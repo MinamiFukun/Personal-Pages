@@ -544,6 +544,171 @@
     #audioOverlay {position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0); /* Trong suốt */ z-index: 9999; cursor: pointer;}
    </style>
   </noscript>
+
+  <style>
+
+* {box-sizing: border-box}
+a {text-decoration: none; color: #fff}
+
+[class*=fa-]:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-style: normal
+}
+figure,h1,h2,p,ul {margin: 0 0 1.25rem} button,
+input {
+    font: inherit;
+    vertical-align: middle;
+    text-transform: none;
+    overflow: visible;
+    transition: .2s
+}
+input {
+    display: block;
+    padding: .5rem 1.5rem;
+    width: 100%;
+    line-height: calc(2rem - 2px);
+    border-radius: 3rem
+}
+.Button,
+[type=button],
+[type=submit] {
+    cursor: pointer;
+    padding: .5rem 2rem;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    line-height: 2rem;
+    border-radius: 3rem
+}
+.btn-block {width: 100%}
+.sub-menu,
+[class*=anm-] {
+    animation-duration: .2s;
+    animation-fill-mode: both
+}
+.anm-e,
+.sub-menu {animation-name: zoom}
+@keyframes zoom {
+    0%,100% {transform: scale(1)}
+    50% {transform: scale(1.07)}
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    color: #8da0bc;
+    background-color: #080f28;
+    overflow-x: hidden
+}
+input {
+    border: 1px solid #1e2747;
+    background-color: #1e2747;
+    color: #8da0bc
+}
+.Button,
+[type=button],
+[type=submit],
+a.Button {
+    color: #fff;
+    background-color: #b30000;
+    border: 1px solid transparent
+}
+.Button:hover,
+[type=button]:hover,
+[type=reset]:hover,
+[type=submit]:hover,
+a.Button:hover,
+button:hover {animation: .3s ease-in zoom}
+.modal.anm-e {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 11;
+    padding: 1.5rem;
+    overflow: auto;
+    text-align: center;
+    font-size: 0;
+    white-space: nowrap
+}
+.modal.anm-e:before {
+    content: "";
+    display: inline-block;
+    width: 1px;
+    margin-left: -1px;
+    height: 100%;
+    vertical-align: middle
+}
+.mdl-cn {
+    background-color: #fff;
+    border-radius: .5rem;
+    max-width: 28rem;
+    width: 100%;
+    font-size: 1rem;
+    text-align: left;
+    white-space: normal;
+    display: inline-block;
+    vertical-align: middle
+}
+.mdl-hd,
+.mdl-bd,
+.mdl-ft {padding: 1rem; border-bottom: 1px solid rgba(141, 160, 188, .2)}
+.mdl-hd {position: relative}
+.mdl-hd .Title {
+    color: #1E2747;
+    font-size: 1.5rem;
+    letter-spacing: normal;
+    font-weight: 400;
+    white-space: nowrap;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-right: 1.5rem
+}
+.mdl-hd .Title:before {
+    width: 3.75rem;
+    height: 3.75rem;
+    line-height: 3.75rem;
+    display: inline-block;
+    text-align: center;
+    background-color: rgba(0, 122, 255, .1);
+    border-radius: 4rem;
+    color: #d90000;
+    margin-right: 1rem
+}
+.mdl-hd .mdl-close {
+    background-color: transparent;
+    color: #8DA0BC;
+    padding: 0;
+    position: absolute;
+    right: 1rem;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 2.5rem;
+    height: 2.5rem
+}
+.modal.anm-e p {margin-bottom: .7rem}
+.modal.anm-e p:last-child {margin-bottom: 0}
+.modal.anm-e a {color: #080F28}
+.modal.anm-e input {
+    background-color: #F9FAFC;
+    color: #8DA0BC;
+    border-color: #E8ECF2;
+    box-shadow: none
+}
+.fa-times:before {content: ""}
+.fa-user:before {content: ""}
+    @font-face {
+        font-family: "Font Awesome 5 Free";
+        font-style: normal;
+        font-weight: 900;
+        src: url("https://minamifukun.github.io/Personal-Pages/font-user.woff2") format("woff2");
+    }
+
+
+</style>
+
  </head>
  <body class="is-loading">
   <svg display="none" height="0" version="1.1" viewBox="0 0 40 40" width="0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -648,7 +813,7 @@
         <hr class="style1 full" id="divider02"/>
         <ul class="buttons" id="buttons04">
          <li>
-          <a class="button n01" href="#" style="display: flex; align-items: center; gap: 6px; text-decoration: none;" id="thongbaobimat">
+          <a class="button n01" href="#" onclick="openLoginModal()" style="display: flex; align-items: center; gap: 6px; text-decoration: none;">
           <span class="label" style="font-size: 16px; line-height: 1;">Những Bí Mật Về Minami Fukun</span>
           <img src="https://minamifukun.github.io/Personal-Pages/emoji.png" 
           style="width: 20px; height: 20px; vertical-align: middle;" alt="icon"></a></li>
@@ -708,6 +873,23 @@
     </div>
    </div>
   </div>
+  <div class="modal anm-e on" id="mdl-login" style="display: none;">
+  <div class="mdl-cn">
+    <div class="mdl-hd">
+      <div class="Title fa-user">Nhập thông tin</div>
+      <button class="Button mdl-close aa-mdl" onclick="closeLoginModal()"><i class="fa-times"></i></button>
+    </div>
+    <div class="mdl-bd">
+      <form id="loginForm" onsubmit="return handleLogin(event)" style="text-align:center">
+        <p><input required type="text" placeholder="Tên" id="username"></p>
+        <p><input required type="password" placeholder="Mật khẩu" id="password"></p>
+        <p><button type="submit" class="Button btn-block" style="color:#fff">Xác nhận</button></p>
+        <p id="loginMessage"></p>
+      </form>
+    </div>
+  </div>
+ </div>
+</div>
 </script>
   <script>
    (function() {
@@ -1580,46 +1762,6 @@
   let clickTimer;
   let messageTimer;
 
-  document.getElementById("thongbaobimat").addEventListener("click", function(event) {
-    event.preventDefault();
-    clickCount++;
-
-    // Nếu là lần bấm đầu tiên thì hiện thông báo sau 500ms
-    if (clickCount === 1) {
-      messageTimer = setTimeout(() => {
-        alert(`Bạn phải có mã truy cập để vào xem\n(trừ khi bạn đủ thông minh =D)`);
-        window.location.href = "https://minamifukun.github.io/Personal-Pages/malogin.html";
-      }, 500);
-    }
-    
-    if (clickCount === 2) {
-      clearTimeout(messageTimer); // Hủy thông báo đầu tiên nếu chưa hiện
-      secondMessageTimer = setTimeout(() => {
-        alert("Còn non và xanh lắm =))");
-      }, 300);
-    }
-   
-    if (clickCount === 3) {
-      clearTimeout(messageTimer);
-      clearTimeout(secondMessageTimer); // Ngăn không cho thông báo thứ 2 hiện
-      setTimeout(() => {
-        alert("Sắp được rồi cố lên =D");
-      }, 150);
-    }
-    // Nếu đủ 4 lần bấm thì chuyển hướng
-    if (clickCount === maxClicks) {
-      clearTimeout(messageTimer);
-//      clearTimeout(secondMessageTimer);
-      window.location.href = "https://minamifukun.github.io/Personal-Pages/Information.html";
-    }
-
-    // Reset lại sau timeout
-    clearTimeout(clickTimer);
-    clickTimer = setTimeout(() => {
-      clickCount = 0;
-    }, timeout);
-  });
-  
   (function () {
     const script = document.createElement("script");
     script.src = "https://minamifukun.github.io/Personal-Pages/devtools.js";
@@ -1638,3 +1780,4 @@
   
 </script>
 <script src="https://minamifukun.github.io/Personal-Pages/devtools.js"></script>
+<script src="https://minamifukun.github.io/Personal-Pages/mk.js"></script>
