@@ -1,7 +1,7 @@
    let loginAttempts = 0;
    let users = [];
 // Đọc file users.txt khi trang được tải
-   fetch("file:///C:/Users/Admin/Downloads/userlogin.txt")
+   fetch("https://minamifukun.github.io/Personal-Pages/userlogin.txt")
 
     .then(res => res.text())
     .then(data => {
