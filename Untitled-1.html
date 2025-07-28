@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Test CORS</title>
+  <meta charset="utf-8">
+  <title>Test M3U8 qua Proxy</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
-  <h2>Test CORS from JavaScript</h2>
-  <button onclick="testCORS()">Gửi yêu cầu</button>
-  <pre id="output"></pre>
+  <h2>To A Kinder World (Proxy)</h2>
+  <video id="video" controls style="width: 80%; max-width: 600px;"></video>
 
   <script>
-    function testCORS() {
-      fetch('https://phuongthaonunglon.liveblog365.com/cors-test.php')
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById("output").textContent = JSON.stringify(data, null, 2);
-        })
-        .catch(err => {
-          document.getElementById("output").textContent = "Lỗi: " + err;
-          console.error(err);
-        });
+    const proxyURL = "https://phuongthaonunglon.liveblog365.com/proxy.php?url=" +
+      encodeURIComponent("https://phuongthaonunglon.liveblog365.com/m3u8_audio/To_A_Kinder_World/To_A_Kinder_World.m3u8");
+
+    if (Hls.isSupported()) {
+      const video = document.getElementById('video');
+      const hls = new Hls();
+      hls.loadSource(proxyURL);
+      hls.attachMedia(video);
+    } else {
+      document.getElementById('video').src = proxyURL;
     }
   </script>
 </body>
