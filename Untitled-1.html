@@ -1,25 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-  <meta charset="utf-8">
-  <title>Test M3U8 qua Proxy</title>
+  <meta charset="UTF-8">
+  <title>Phát nhạc M3U8</title>
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <style>
+    body { background: #111; color: #fff; text-align: center; padding: 20px; }
+    video { width: 100%; max-width: 600px; border: 2px solid #0f0; border-radius: 12px; }
+  </style>
 </head>
 <body>
-  <h2>To A Kinder World (Proxy)</h2>
-  <video id="video" controls style="width: 80%; max-width: 600px;"></video>
+  <h2>🎵 Đang phát: To A Kinder World</h2>
+  <video id="video" controls></video>
 
   <script>
-    const proxyURL = "https://phuongthaonunglon.liveblog365.com/proxy.php?url=" +
-      encodeURIComponent("https://phuongthaonunglon.liveblog365.com/m3u8_audio/To_A_Kinder_World/To_A_Kinder_World.m3u8");
+    const video = document.getElementById('video');
 
+    // Bước 1: M3U8 gốc
+    const rawM3U8 = 'https://phuongthaonunglon.liveblog365.com/m3u8_audio/To_A_Kinder_World/To_A_Kinder_World.m3u8';
+
+    // Bước 2: Encode URL để gửi qua proxy
+    const encodedURL = encodeURIComponent(rawM3U8);
+
+    // Bước 3: Proxy
+    const proxyURL = `https://phuongthaonunglon.liveblog365.com/proxy.php?url=${encodedURL}`;
+
+    // Bước 4: Phát bằng HLS.js
     if (Hls.isSupported()) {
-      const video = document.getElementById('video');
       const hls = new Hls();
       hls.loadSource(proxyURL);
       hls.attachMedia(video);
-    } else {
-      document.getElementById('video').src = proxyURL;
+      hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        video.play();
+      });
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      // Cho Safari iOS
+      video.src = proxyURL;
+      video.addEventListener('loadedmetadata', function () {
+        video.play();
+      });
     }
   </script>
 </body>
