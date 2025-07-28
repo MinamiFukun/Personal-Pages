@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Test M3U8 - CORS Playback</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    video {
+      width: 90%;
+      max-width: 600px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Test phát file M3U8</h1>
+  <p>Nguồn: <code>https://phuongthaonunglon.liveblog365.com/m3u8_audio/To_A_Kinder_World/To_A_Kinder_World.m3u8</code></p>
+
+  <video id="video" controls></video>
+
+  <script>
+    const video = document.getElementById('video');
+    const m3u8Url = "https://phuongthaonunglon.liveblog365.com/m3u8_audio/To_A_Kinder_World/To_A_Kinder_World.m3u8";
+
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(m3u8Url);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play();
+      });
+      hls.on(Hls.Events.ERROR, function(event, data) {
+        console.error("HLS.js error:", data);
+      });
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = m3u8Url;
+      video.addEventListener('loadedmetadata', () => {
+        video.play();
+      });
+    } else {
+      alert("Trình duyệt không hỗ trợ phát HLS!");
+    }
+  </script>
+</body>
+</html>
