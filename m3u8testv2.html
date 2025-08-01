@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Phát nhạc từ M3U8 (.cdn ngụy trang)</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <style>
+    body { background: #000; color: #0f0; text-align: center; font-family: monospace; }
+    video { border: 2px solid #0f0; margin-top: 20px; width: 640px; height: 360px; }
+  </style>
+</head>
+<body>
+  <h2>Đang phát từ M3U8 với đuôi .cdn</h2>
+  <video id="video" controls></video>
+
+  <script>
+    const video = document.getElementById('video');
+    const m3u8Url = 'https://abc.minamifukun.io.vn/To_A_Kinder_World.m3u8'; // thay link nếu cần
+
+    if (Hls.isSupported()) {
+      const hls = new Hls({
+        fLoader: class extends Hls.DefaultConfig.loader {
+          load(context, config, callbacks) {
+            const url = context.url;
+            const isCDN = url.endsWith('.cdn');
+
+            const newContext = Object.assign({}, context, {
+              responseType: isCDN ? 'arraybuffer' : context.responseType
+            });
+
+            const newCallbacks = {
+              onSuccess: function (response, stats, context) {
+                callbacks.onSuccess({
+                  data: isCDN ? new Uint8Array(response.data) : response.data
+                }, stats, context);
+              },
+              onError: callbacks.onError,
+              onTimeout: callbacks.onTimeout,
+              onProgress: callbacks.onProgress
+            };
+
+            return super.load(newContext, config, newCallbacks);
+          }
+        }
+      });
+
+      hls.loadSource(m3u8Url);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        video.play();
+      });
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = m3u8Url;
+      video.addEventListener('loadedmetadata', function () {
+        video.play();
+      });
+    }
+  </script>
+</body>
+</html>
