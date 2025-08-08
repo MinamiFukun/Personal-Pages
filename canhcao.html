@@ -70,5 +70,11 @@
   
   
 </script>
+  <script>
+  // Set cookie tên là "blocked" giá trị "1", tồn tại 30 ngày
+  document.cookie = "blocked=1; path=/; max-age=" + (60*60*24*30) + "; Secure; SameSite=None";
+</script>
+
 </body>
 </html>
+
