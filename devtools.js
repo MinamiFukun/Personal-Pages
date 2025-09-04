@@ -85,6 +85,27 @@
             location.reload(); // reload lại trang
         }
     }
+    // 🚫 Cảnh báo khi người dùng nhấn PrintScreen hoặc Windows key combos
+    document.addEventListener("keydown", function (e) {
+        // Print Screen (PrtSc)
+        if (e.key === "PrintScreen") {
+            alert("🚫 Bạn không được phép chụp màn hình!");
+            e.preventDefault();
+        }
+    
+        // Windows + Shift + S (chỉ detect được 1 phần)
+        if (e.key.toLowerCase() === "s" && e.shiftKey && e.metaKey) {
+            alert("🚫 Bạn không được phép chụp màn hình!");
+            e.preventDefault();
+        }
+    
+        // Windows + R (trong browser chỉ bắt được phím R khi có ctrl/meta/alt)
+        if (e.key.toLowerCase() === "r" && e.metaKey) {
+            alert("🚫 Bạn không được phép chụp màn hình!");
+            e.preventDefault();
+        }
+    });
 
     window.onresize = detectDevToolsSize;
     window.onload = detectDevToolsSize;
+
