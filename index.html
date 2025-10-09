@@ -1714,42 +1714,58 @@ button:hover {animation: .3s ease-in zoom}
     })();
 </script>
   <audio id="myAudio" autoplay loop style="display: none;"> 
-    <source src="The%20Secret%20in%20Jeju%20Music.m4a" type="audio/mp4">
     Trình duyệt không hỗ trợ audio.
   </audio>
   <script>
-    const audio = document.getElementById("myAudio");
-    let hasPlayed = false;
-  
-    function tryPlayAudio() {
-      if (!hasPlayed) {
-        audio.muted = false;
-        audio.play().then(() => {
-          hasPlayed = true;
-          console.log("Audio played after interaction.");
-          removeEventListeners();
-        }).catch((err) => {
-          console.warn("Still blocked:", err);
-        });
-      }
-    }
-  
-    function removeEventListeners() {
-      document.removeEventListener("click", tryPlayAudio);
-      document.removeEventListener("touchstart", tryPlayAudio);
-    }
-  
-    document.addEventListener("DOMContentLoaded", () => {
-      audio.play().then(() => {
-        audio.muted = false;
-        hasPlayed = true;
-        console.log("Autoplay successful.");
-      }).catch(() => {
-        console.log("Autoplay blocked. Waiting for user interaction...");
-        document.addEventListener("click", tryPlayAudio);
-        document.addEventListener("touchstart", tryPlayAudio);
-      });
+  const playlist = [
+    "The%20Secret%20in%20Jeju%20Music.m4a",
+    "audio.mp4",
+    "Shining%20the%20Morning%20-%20Jang%20Sei%20Yong"
+  ];
+
+  let currentIndex = 0;
+  const audio = document.getElementById("myAudio");
+  let hasPlayed = false;
+
+  function playCurrent() {
+    audio.src = playlist[currentIndex];
+    audio.load();
+    audio.play().then(() => {
+      hasPlayed = true;
+      console.log("Playing:", playlist[currentIndex]);
+      removeEventListeners();
+    }).catch((err) => {
+      console.warn("Play blocked:", err);
     });
+  }
+
+  function nextTrack() {
+    currentIndex = (currentIndex + 1) % playlist.length;
+    playCurrent();
+  }
+
+  function tryPlayAudio() {
+    if (!hasPlayed) {
+      audio.muted = false;
+      playCurrent();
+    }
+  }
+
+  function removeEventListeners() {
+    document.removeEventListener("click", tryPlayAudio);
+    document.removeEventListener("touchstart", tryPlayAudio);
+  }
+
+  // Khi tải xong trang, thử autoplay
+  document.addEventListener("DOMContentLoaded", () => {
+    playCurrent();
+
+    // Nếu bị chặn, đợi click
+    audio.addEventListener("error", nextTrack);
+    audio.addEventListener("ended", nextTrack);
+    document.addEventListener("click", tryPlayAudio);
+    document.addEventListener("touchstart", tryPlayAudio);
+  });
   document.getElementById("thongbaotm").addEventListener("click", function(event) {
     event.preventDefault(); // Ngăn không chuyển link ngay
     const confirmed = confirm(`Chỉ những người kết bạn facebook với "Nam Là Gái Genz" mới xem được video này.\nBạn có chắc chắn muốn tiếp tục?`);
