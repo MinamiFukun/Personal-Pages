@@ -628,8 +628,8 @@ a {
 
 .icon-generic {
   content: image-set(
-      url("file:///F:/Downloads/image1.png") 1x,
-      url("file:///F:/Downloads/image3.png") 2x);
+      url("image1.png") 1x,
+      url("image3.png") 2x);
 }
 
 .hidden {
@@ -1257,28 +1257,32 @@ html[dir='rtl'].offline .icon-offline {
             <button id="reload-button" class="blue-button text-button" data-url="https://minamifukun.io.vn/info">
               Reload
             </button>
-    </div>
-      <div id="sub-frame-error">
-        <div class="icon "></div>
-        <div id="sub-frame-error-details"><strong>minamifukun.oi.vn</strong> didn’t send any data.</div>
-      </div>
 <script>
 let clickCount = 0;
+let timer = null;
+const maxClicks = 12;
 
 document.getElementById("reload-button").addEventListener("click", function() {
   clickCount++;
 
-  if (clickCount < 12) {
-    console.log(`Đã bấm ${clickCount}/12 lần`);
-    // Bạn có thể thêm hiệu ứng rung, đổi màu... báo người dùng còn bao nhiêu lần nữa
-  } else {
-    const url = this.dataset.url;
-    if (url) {
-      window.location.href = url;
+  // Xoá timer cũ mỗi lần bấm
+  clearTimeout(timer);
+
+  // Đặt lại timer 1 giây để "chốt kiểm tra"
+  timer = setTimeout(() => {
+    if (clickCount === maxClicks) {
+      const url = this.dataset.url;
+      if (url) {
+        window.location.href = url;
+      } else {
+        location.reload();
+      }
     } else {
-      location.reload();
+      // Nếu không đủ hoặc bấm quá → vô hiệu hoá nút
+      this.disabled = true;
     }
-  }
+  }, 1000); // 1 giây không bấm nữa thì kiểm tra
+
 });
 </script>
 <script>
@@ -1292,5 +1296,5 @@ document.getElementById("reload-button").addEventListener("click", function() {
     window.location.href = "https://minamifukun.io.vn/canhcao.html";
   }
 </script>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script src="devtools.js"></script>
 </body></html>
