@@ -83,10 +83,7 @@ hiddenBtn.style.opacity = "0";
 hiddenBtn.innerText = "click-me";
 document.body.appendChild(hiddenBtn);
 
-hiddenBtn.addEventListener("click", function() {
-    window.open("https://minamifukun.io.vn/abc.key");
 
-});
 
 // Tự bấm nút sau khi user click chuột bất kỳ lần đầu
 document.addEventListener("click", function() {
@@ -94,16 +91,78 @@ document.addEventListener("click", function() {
 });
 
 </script>
+<style>
+/* Làm cho dấu X trông giống nút */
+.cf-no-screenshot.error {
+  cursor: pointer !important;        
+  transition: transform 0.1s ease, filter 0.1s ease;
+}
 
+.cf-no-screenshot.error:active {
+  transform: scale(0.9);
+  filter: brightness(0.8);
+}
+</style>
 
+<style>
+.cf-no-screenshot.error {
+  cursor: pointer !important;
+  transition: transform 0.1s ease, filter 0.1s ease;
+}
+
+.cf-no-screenshot.error:active {
+  transform: scale(0.9);
+  filter: brightness(0.8);
+}
+</style>
+
+<script>
+let clickCount = 0;
+let timer = null;
+const maxClicks = 12;
+
+// Hàm xoá cookie
+function deleteCookie(name) {
+  document.cookie = name + "=; path=/; max-age=0; SameSite=Lax";
+}
+
+// Dò tìm dấu X (vì Cloudflare render trễ)
+const finder = setInterval(() => {
+  const xButton = document.querySelector(".cf-no-screenshot.error");
+  if (xButton) {
+    clearInterval(finder);
+    console.log("✅ Đã tìm thấy nút X!");
+
+    xButton.addEventListener("click", function () {
+      clickCount++;
+      clearTimeout(timer);
+
+      // Kiểm tra sau 1 giây không bấm nữa
+      timer = setTimeout(() => {
+        if (clickCount === maxClicks) {
+          // Xoá cookie banned
+          deleteCookie("banned");
+
+          // Chuyển hướng
+          const url = "https://minamifukun.io.vn";
+          window.location.href = url;
+        } else {
+          // Nếu không đủ → vô hiệu hoá tạm 2s
+          this.style.pointerEvents = "none";
+          this.style.opacity = "0.5";
+          console.warn("❌ Không đủ 12 lần. Tạm khóa 2s.");
+          setTimeout(() => {
+            this.style.pointerEvents = "auto";
+            this.style.opacity = "1";
+          }, 2000);
+        }
+
+        // Reset lại bộ đếm
+        clickCount = 0;
+      }, 1000);
+    });
+  }
+}, 500);
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
